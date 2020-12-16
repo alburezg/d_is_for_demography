@@ -1,13 +1,10 @@
 ---
 title: "D is for Demography"
+subtitle: "Christmas trivia edition"
 author: "Monica Alexander"
 geometry: paperheight=4.6in,paperwidth=5.7in,margin=1in
-mainfont: Helvetica
-header-includes:
-  - \pagenumbering{gobble} 
 output:
-    pdf_document:
-      latex_engine: xelatex
+    pdf_document
 ---
 
 ```{r setup, include=FALSE}
@@ -16,6 +13,7 @@ knitr::opts_chunk$set(echo = FALSE, dev="cairo_pdf", message = FALSE, warning = 
 
 ```{r}
 library(tidyverse)
+# library(readr)
 library(LexisPlotR)
 library(readxl)
 library(here)
@@ -26,7 +24,7 @@ library(kableExtra)
 
 \centering
 
-# A is for Age
+# A is for ?
 ```{r}
 lexis_grid(year_start = 1970, year_end = 2020, age_start = 0, age_end = 50, delta = 5) %>%
   lexis_age(age = 30, delta = 5)
@@ -34,7 +32,7 @@ lexis_grid(year_start = 1970, year_end = 2020, age_start = 0, age_end = 50, delt
 
 
 
-# B is for Births
+# B is for ?
 
 ```{r}
 births <- read_xlsx("data/WPP2019_FERT_F01_BIRTHS_BOTH_SEXES.xlsx", skip = 16)
@@ -49,6 +47,7 @@ births %>%
   filter(region %in% c("Australia", "Canada")) %>% 
   ggplot(aes(year, births, color = region)) + 
   geom_point() + geom_line(lwd = 1.3) + 
+  labs(y = "mistery quantity") +
   theme_bw(base_size = 14) + 
   #ggtitle("Births in Australia and Canada") + 
   scale_color_brewer(palette = "Set1", name = "country")+
@@ -56,7 +55,7 @@ births %>%
 ```
 
 
-# C is for Cohort
+# C is for ?
 
 ```{r}
 lexis_grid(year_start = 1970, year_end = 2020, age_start = 0, age_end = 50, delta = 5) %>%
@@ -64,14 +63,14 @@ lexis_grid(year_start = 1970, year_end = 2020, age_start = 0, age_end = 50, delt
 ```
 
 
-# D is for Demography!
+# D is for ?
 
 \includegraphics{fig/demogseal2.png}
 
 
 \newpage
 
-# E is for Euler-Lotka equation
+# E is for ?
 
 \vspace{10mm}
 
@@ -80,7 +79,7 @@ $$
 1 = \int e^{-ra}l(a)f(a)da
 $$
 
-# F is for Fertility
+# F is for ?
 
 ```{r}
 pop_female <- readxl::read_xlsx(here("data/WPP2019_POP_F07_3_POPULATION_BY_AGE_FEMALE.xlsx"), sheet = 1, skip = 16)
@@ -114,7 +113,7 @@ pop <- pop %>%
 pop %>% 
   filter(location %in% c("Japan", "Nigeria"), year %in% c(2015)) %>%
   group_by(location, year) %>% 
-  mutate(location = ifelse(location == "Nigeria", "Nigeria (high fertility)", "Japan (low fertility)")) %>% 
+  mutate(location = ifelse(location == "Nigeria", "Nigeria", "Japan")) %>% 
   mutate(proportion = population/sum(population)) %>% 
   mutate(proportion=ifelse(sex=="M", -proportion, proportion)) %>% 
 ggplot(aes(x = age_group, y = proportion, fill = sex)) + 
@@ -130,7 +129,7 @@ ggplot(aes(x = age_group, y = proportion, fill = sex)) +
   labs(caption = "Data from WPP 2019")
 ```
 
-# G is for Gompertz mortality
+# G is for ?
 
 ```{r}
 d <- read_table(here("data/AUS_Mx_1x1.txt"), skip = 2, col_types = 'dcddd')
@@ -155,12 +154,12 @@ d_gomp %>%
   facet_wrap(~parameter, scales = "free_y") + 
   scale_color_brewer(palette = "Set1") + 
   theme_bw(base_size = 14)+
-  labs(title = "Gompertz parameters for Australians", caption = "Data from HMD")
+  labs(caption = "Data from HMD")
 ```
 
 
 \newpage
-# H is for Hutterites
+# H is for ?
 
 
 \begin{table}[h!]
@@ -180,11 +179,11 @@ Age & $n(x)$ \\ \hline
 \tiny
 Data reproduced from Wachter 2014
 
-# I is for Immigration
+# I is for ?
 \vspace{-2mm}
 \includegraphics[width = 0.8\textwidth]{fig/pr_state.png}
 
-# J is for 'J-shape' mortality
+# J is for ?
 
 
 ```{r}
@@ -207,7 +206,7 @@ d %>%
   theme_bw(base_size = 14)
 ```
 
-# K is for Keyfitz momentum
+# K is for ?
 
 ```{r}
 df <- read_xlsx(here("data", "WPP2019_FERT_F07_AGE_SPECIFIC_FERTILITY.xlsx"), skip = 16)
@@ -330,20 +329,20 @@ dk %>%
 
 ```
 
-# L is for Life expectancy
+# L is for ?
 
 \includegraphics{fig/oeppen_vaupel.jpg}
 \tiny
 From Oeppen and Vaupel (2002)
 
-# M is for Mortality
+# M is for ?
 
 \includegraphics{fig/opioid_race.png}
 \tiny
 From https://github.com/MJAlexander/opioid-mcd
 
 
-# N is for Net Reproduction Ratio
+# N is for ?
 
 ```{r}
 ffab <- 0.4886
@@ -361,7 +360,7 @@ df %>%
   labs(caption = "Data from WPP 2019")
 ```
 
-# O is for Old-age dependency ratio
+# O is for ?
 
 ```{r}
 pop %>% 
@@ -379,7 +378,7 @@ pop %>%
 ```
 
 
-# P is for Parity 
+# P is for ? 
 
 ```{r}
 ppr <- read_table(here("data", "CANpprVHbo.txt"), skip = 2)
@@ -389,18 +388,18 @@ ppr <- ppr %>%
   rename(cohort = Cohort) %>% 
   select(-measure)
 ppr %>% 
-  mutate(parity = factor(parity)) %>% 
-  ggplot(aes(cohort, ratio, color = parity)) + 
+  mutate(name = factor(parity)) %>% 
+  ggplot(aes(cohort, ratio, color = name)) + 
   geom_line(lwd = 1.1) + 
   scale_color_viridis_d() + 
   ylab("PPR") + 
   theme_gray(base_size = 14) + 
-  labs(title = "Parity Progression Ratios in Canada", caption = "Data from HFD") +
+  labs(caption = "Data from HFD") +
   theme_bw(base_size = 14)
 ```
 
 
-# Q is for Quantum (and tempo)
+# Q is for ?
 
 ```{r}
 dfc <- read_table(here("data", "CANtfrRRbo.txt"), skip = 2)
@@ -440,7 +439,7 @@ tfr_adj %>%
   theme_bw(base_size = 14)
 ```
 
-# R is for r (the population growth rate)
+# R is for ?
 
 ```{r}
 pop %>% 
@@ -453,17 +452,17 @@ pop %>%
   ggplot(aes(year, growth_rate, color = location)) + geom_line(lwd = 1.3)+
   theme_bw(base_size = 14) +
   scale_color_brewer(palette = "Set1", name = "Country") + 
-  ylab("growth rate")+
+  ylab("??")+
   labs(caption = "Data from WPP 2019")
 ```
 
 
-# S is for Survivorship
+# S is for ?
 
 ```{r}
-lt <- read_table("http://www.prdh.umontreal.ca/BDLC/data/ont/fltper_5x5.txt", skip = 2)
+lt <- read_table("data/lt.txt", skip = 2)
 lt <- lt %>% 
-  filter(Year=="2015-2016") %>% 
+  filter(Year=="2000-2004") %>% 
   mutate(x = c(0,1,seq(5, 110, by = 5)),
          n = lead(x, default = Inf)-x)
 lt %>% 
@@ -472,11 +471,11 @@ lt %>%
   geom_line(lwd = 1.3) + 
   xlab("age") + 
   theme_bw(base_size = 14) + 
-  labs(title = "Survivorship for Ontario, 2015", caption = "data from the Canadian Human Mortality Database")
+  labs(title = "Ontario, 2015", caption = "data from the Canadian Human Mortality Database")
 ```
 
 
-# T is for Total Fertility Rate
+# T is for ?
 
 ```{r}
 
@@ -499,23 +498,23 @@ df %>%
   scale_color_viridis_d()+
   geom_hline(yintercept = 2.1) + 
   theme_gray(base_size = 14) + 
-  labs(title = "Total fertility rate for selected countries, 1950-2015", caption = "Data from WPP 2019") + 
+  labs(title = "Selected countries, 1950-2015", caption = "Data from WPP 2019") + 
   theme_bw(base_size = 14)
 ```
 
 
-# U is for Uncertainty
+# U is for ?
 
 \vspace{10mm}
 \includegraphics[width = 1\textwidth]{fig/mortality_uncert.pdf}
 From Alexander, Zagheni and Barberi (2017)
 
 \newpage
-# V is for Vital registration systems
+# V is for ?
 
 \includegraphics[width = 1.2\textwidth]{fig/crvs.png}
 
-# W is for Weighted mean
+# W is for ?
 
 ```{r}
 dmac %>% 
@@ -525,25 +524,25 @@ dmac %>%
 ```
 
 
-# X is for $x$ (the age variable)
+# X is for ?
 
 \footnotesize
 ```{r}
 lt %>%
   filter(x<20) %>% 
-  select(x,n, lx, dx, ax, Lx, Tx, ex) %>% kable(booktabs = T,caption = 'Ontario life table (up to age 15), 2015 (Source: CHMD)') %>% 
+  select(x,n, lx, dx, ax, Lx, Tx, ex) %>% kable(booktabs = T,caption = 'Ontario life table, 2015 (Source: CHMD)') %>% 
   kable_styling(latex_options = "hold_position")
 ```
 
 
-# Y is for Year (period)
+# Y is for ?
 
 ```{r}
 lexis_grid(year_start = 1970, year_end = 2020, age_start = 0, age_end = 50, delta = 5) %>%
   lexis_year(year = 1990, delta = 5, fill = "lightblue")
 ```
 
-# Z is for Zero population growth
+# Z is for ?
 
 ```{r}
 pop %>% 

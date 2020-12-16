@@ -1,0 +1,10 @@
+
+ROUND 1 - D is for Demography
+- Pick three random letters
+- People who have letter letter in their name or surname send their proposals via chat
+- First three people to guess correctly pass to round 2
+
+ROUND 2 - Sudden Death
+- Do quiz in 'hard' mode:
+https://www.ined.fr/en/everything_about_population/population-games/quiz/etes-vous-demographe/
+- First one to get an answer wrong falls out, and so on
